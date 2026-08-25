@@ -1,0 +1,217 @@
+/* Wax-seal envelope intro — themed via the CSS variables each theme already
+   defines on its root (--inv-bg, --inv-accent, --inv-text, --inv-font-*). */
+
+.env-scene {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: var(--inv-bg, #12151d);
+  perspective: 1600px;
+  transition: opacity 0.6s ease;
+}
+
+.env-card {
+  position: relative;
+  width: min(320px, 82vw);
+  aspect-ratio: 3 / 4;
+  max-height: 88vh;
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, var(--inv-bg-alt, #171b25), var(--inv-bg, #12151d));
+  border: 1px solid var(--inv-border, rgba(201, 168, 106, 0.25));
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.env-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 54%;
+  background: linear-gradient(155deg, var(--inv-accent-soft, rgba(201, 168, 106, 0.18)), transparent 75%),
+    var(--inv-bg-alt, #171b25);
+  clip-path: polygon(0 0, 100% 0, 50% 66%);
+  border-bottom: 1px solid var(--inv-border, rgba(201, 168, 106, 0.25));
+  transform-origin: top center;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 2;
+}
+
+.env-shade {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 20%, rgba(0, 0, 0, 0.25), transparent 60%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.env-content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 28px 22px 34px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.env-eyebrow {
+  font-family: var(--inv-font-ui, 'Jost', sans-serif);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--inv-accent, #c9a86a);
+  opacity: 0.9;
+}
+
+.env-names {
+  margin: 0;
+  font-family: var(--inv-font-display, 'Playfair Display', serif);
+  font-size: clamp(21px, 6vw, 29px);
+  color: var(--inv-text, #f2ede1);
+  line-height: 1.25;
+}
+
+.env-amp {
+  color: var(--inv-accent, #c9a86a);
+  padding: 0 5px;
+  font-style: italic;
+}
+
+.env-hint {
+  font-family: var(--inv-font-ui, 'Jost', sans-serif);
+  font-size: 10.5px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--inv-text-dim, #a9a49a);
+  animation: env-pulse 2.4s ease-in-out infinite;
+}
+
+/* --- wax seal --- */
+.env-seal {
+  position: absolute;
+  top: 41%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 32% 28%, #ecd18f, var(--inv-accent, #c9a86a) 55%, #8f7238 100%);
+  box-shadow:
+    0 10px 20px rgba(0, 0, 0, 0.45),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.3),
+    inset 0 3px 5px rgba(255, 255, 255, 0.4);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 3;
+  animation: env-breathe 2.4s ease-in-out infinite;
+}
+.env-seal:hover:not(:disabled) {
+  transform: translate(-50%, -50%) scale(1.07);
+}
+.env-seal:disabled {
+  cursor: default;
+}
+.env-seal-ring {
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 255, 255, 0.4);
+}
+.env-seal-glyph {
+  position: relative;
+  font-family: var(--inv-font-display, 'Playfair Display', serif);
+  font-size: 19px;
+  letter-spacing: 1px;
+  color: #3a2c12;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.env-seal-shard {
+  position: absolute;
+  top: 41%;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  background: linear-gradient(160deg, #ecd18f, var(--inv-accent, #c9a86a) 70%);
+  opacity: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+@keyframes env-pulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+@keyframes env-breathe {
+  0%, 100% { box-shadow: 0 10px 20px rgba(0, 0, 0, 0.45), inset 0 -3px 6px rgba(0, 0, 0, 0.3), inset 0 3px 5px rgba(255, 255, 255, 0.4); }
+  50% { box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5), 0 0 0 6px var(--inv-accent-soft, rgba(201, 168, 106, 0.16)), inset 0 -3px 6px rgba(0, 0, 0, 0.3), inset 0 3px 5px rgba(255, 255, 255, 0.4); }
+}
+
+/* --- stage: cracking --- */
+.env-stage-cracking .env-seal {
+  animation: env-crack-press 0.36s ease-out forwards;
+}
+@keyframes env-crack-press {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  40% { transform: translate(-50%, -50%) scale(0.84); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1.35); opacity: 0; }
+}
+.env-stage-cracking .env-seal-shard,
+.env-stage-opening .env-seal-shard,
+.env-stage-gone .env-seal-shard {
+  animation: env-shard-fly 0.5s ease-out forwards;
+}
+.env-seal-shard--a { animation-delay: 0.02s; transform: translate(-50%, -50%) rotate(-10deg); }
+.env-seal-shard--b { animation-delay: 0.05s; transform: translate(-50%, -50%) rotate(20deg); }
+.env-seal-shard--c { animation-delay: 0.08s; transform: translate(-50%, -50%) rotate(50deg); }
+@keyframes env-shard-fly {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.4) rotate(0deg); }
+  25% { opacity: 1; }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--shard-x, 30px)), calc(-50% + var(--shard-y, -34px))) scale(1) rotate(140deg);
+  }
+}
+.env-seal-shard--a { --shard-x: -34px; --shard-y: -30px; }
+.env-seal-shard--b { --shard-x: 30px; --shard-y: -36px; }
+.env-seal-shard--c { --shard-x: 4px; --shard-y: -42px; }
+
+/* --- stage: opening --- */
+.env-stage-opening .env-flap,
+.env-stage-gone .env-flap {
+  transform: rotateX(-152deg);
+}
+.env-stage-opening .env-card,
+.env-stage-gone .env-card {
+  transform: scale(0.95) translateY(-8px);
+}
+
+/* --- stage: gone --- */
+.env-stage-gone {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .env-seal { animation: none; }
+  .env-hint { animation: none; }
+}
